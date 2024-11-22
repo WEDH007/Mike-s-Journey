@@ -13,7 +13,7 @@ using System.Threading.Channels;
 bool playing = true;
 bool gameon = true;
 int guess;
-
+int attempts = 0;
 Console.WriteLine("Number Guessing Game");
 Console.WriteLine("--------------------");
 Console.WriteLine(@"
@@ -40,9 +40,11 @@ int number = random.Next(1, 101);
         Console.Clear();
         Console.WriteLine("Guess the number between 1 and 100.");
     }
+       attempts = attempts + 1;
+
         if (guess > number)
         {
-        Console.WriteLine("The guess it too high.Please try again or press q to quit.");
+        Console.WriteLine("The guess it too high.Press any key to try again or press q to quit.");
             if (Console.ReadLine() == "q")
             {
                 gameon = false;
@@ -52,7 +54,7 @@ int number = random.Next(1, 101);
         }
         else if(guess < number)
         {
-        Console.WriteLine("The guess it too low.Please try again or press q to quit.");
+        Console.WriteLine("The guess it too low.Press any key to try again or press q to quit.");
             if (Console.ReadLine() == "q")
             {
                 gameon = false;
@@ -61,7 +63,7 @@ int number = random.Next(1, 101);
         }
         else if(guess == number)
         {
-        Console.WriteLine("Winner. You got it right.");
+        Console.WriteLine($"Winner. You got it right. It only took you {attempts} attempts!!");
         Console.ReadLine();
             Console.WriteLine("Press any key to play again or q to quit.");
 
