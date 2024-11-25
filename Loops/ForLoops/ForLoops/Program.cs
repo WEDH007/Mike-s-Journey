@@ -1,4 +1,9 @@
-﻿
+﻿/*
+ * Prime Number Finder
+Objective: Create a program that finds and displays all prime numbers up to a given limit.
+For loop: Loop through numbers and check for divisibility to identify prime numbers.
+*/
+
 int factors = 0;
 
 Console.Write("Write a limit\n");
