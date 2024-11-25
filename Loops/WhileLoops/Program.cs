@@ -14,7 +14,7 @@ string answer;
 bool playing = true;
 bool gameon = true;
 int guess;
-int attempts = 0;
+int attempts;
 Console.WriteLine("Number Guessing Game");
 Console.WriteLine("--------------------");
 Console.WriteLine(@"
@@ -38,6 +38,7 @@ while (gameon)
 
     Random random = new Random();
     int number = random.Next(1, 101);
+    attempts = 0;
 
 
 
