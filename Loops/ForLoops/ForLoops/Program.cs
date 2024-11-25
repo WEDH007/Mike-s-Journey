@@ -5,10 +5,18 @@ For loop: Loop through numbers and check for divisibility to identify prime numb
 */
 
 int factors = 0;
+int limit;
+bool gameon = true;
 
+while(gameon)
+    { 
+Console.Clear();
 Console.Write("Write a limit\n");
 
-int limit = int.Parse(Console.ReadLine());
+while(!(int.TryParse(Console.ReadLine(), out limit)))
+{
+    Console.WriteLine("Please input a valide integer.");
+}
 
 for (int i = 2; i < limit; i++)
 {
@@ -30,6 +38,22 @@ for (int i = 2; i < limit; i++)
 };
 Console.ReadLine();
 
+
+    Console.WriteLine("Press any key to play again or q to quit.");
+if ("q" == Console.ReadLine())
+    {
+        gameon = false;
+    }
+
+
+
+
+
+
+
+
+
+}
 
 
 
