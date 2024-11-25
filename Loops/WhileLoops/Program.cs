@@ -10,6 +10,7 @@ Allow the player to quit the game early (ask if they want to keep playing after 
 */
 
 using System.Threading.Channels;
+string answer;
 bool playing = true;
 bool gameon = true;
 int guess;
@@ -20,63 +21,71 @@ Console.WriteLine(@"
     Build a game where the computer generates a random number between 1 and 100,
     and the players has to guess it. Each time the player guesses incorrectly, 
     the program gives a hint whether the guess is too high or too low.");
-Console.WriteLine("Press any key to play.");
-Console.ReadLine();
 
 
-while (gameon) { 
-Console.Clear();
 
-Random random = new Random();
-int number = random.Next(1, 101);
-
-    while (playing) { 
-        Console.WriteLine("Guess the number between 1 and 100.");
-
-        while (!(int.TryParse(Console.ReadLine() , out guess )) ||( guess>100 || guess<1))
-        {
-        Console.WriteLine("Please make sure it is an integer between 1 and 100");
-        Console.ReadLine();
-        Console.Clear();
-        Console.WriteLine("Guess the number between 1 and 100.");
+while (gameon)
+{
+    answer = "";
+    Console.Clear();
+    Console.WriteLine("New Game.");
+    EndGame();
+    if (answer == "q")
+    {
+        break;
     }
-       attempts = attempts + 1;
+
+
+    Random random = new Random();
+    int number = random.Next(1, 101);
+
+
+
+    while (answer != "q")
+    {
+        Console.WriteLine("Guess the number between 1 and 100.");
+
+        while (!(int.TryParse(Console.ReadLine(), out guess)) || (guess > 100 || guess < 1))
+        {
+            Console.WriteLine("Please make sure it is an integer between 1 and 100");
+            Console.ReadLine();
+            Console.Clear();
+            Console.WriteLine("Guess the number between 1 and 100.");
+        }
+        attempts = attempts + 1;
 
         if (guess > number)
         {
-        Console.WriteLine("The guess it too high.Press any key to try again or press q to quit.");
-            if (Console.ReadLine() == "q")
-            {
-                gameon = false;
-                playing = false;
-                
-            }
-        }
-        else if(guess < number)
-        {
-        Console.WriteLine("The guess it too low.Press any key to try again or press q to quit.");
-            if (Console.ReadLine() == "q")
-            {
-                gameon = false;
-                playing = false;
-            }
-        }
-        else if(guess == number)
-        {
-        Console.WriteLine($"Winner. You got it right. It only took you {attempts} attempts!!");
-        Console.ReadLine();
-            Console.WriteLine("Press any key to play again or q to quit.");
+            Console.WriteLine("The guess it too high");
+            EndGame();
 
-            if (Console.ReadLine() == "q")
-                {
-                gameon = false;
-            }
+        }
+        else if (guess < number)
+        {
+            Console.WriteLine("The guess it too low");
+            EndGame();
+
+        }
+        else if (guess == number)
+        {
+            Console.WriteLine($"Winner. You got it right. It only took you {attempts} attempts!!");
+            Console.ReadLine();
+            EndGame();
+
             break;
         }
     }
 }
 
 
+
+
+void EndGame()
+{
+    Console.WriteLine("Press any key to play or q to quit.");
+    answer = Console.ReadLine();
+    
+}
 
 
 
