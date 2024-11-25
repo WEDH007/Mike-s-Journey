@@ -21,7 +21,7 @@ while(!(int.TryParse(Console.ReadLine(), out limit)))
 for (int i = 2; i < limit; i++)
 {
     factors = 0;
-    for (int n = 1; n < limit; n++)
+    for (int n = 1; n <= i; n++)
     {
        
         if (0 == i % n)
@@ -29,7 +29,6 @@ for (int i = 2; i < limit; i++)
         {
             factors = factors + 1;
         }
-        
     }
     if (factors == 2)
     {
@@ -44,14 +43,6 @@ if ("q" == Console.ReadLine())
     {
         gameon = false;
     }
-
-
-
-
-
-
-
-
 
 }
 
