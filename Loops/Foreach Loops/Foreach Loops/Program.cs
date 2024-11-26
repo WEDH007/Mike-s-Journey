@@ -20,6 +20,8 @@ var answer = Console.ReadLine();
 while (string.IsNullOrEmpty(answer))
 {
     Console.WriteLine("Please insert a value.");
+        answer = Console.ReadLine();
+
 }
 answer = char.ToUpper(answer[0]) + answer.Substring(1);
 
@@ -44,7 +46,7 @@ using (StreamReader outputFile = new(Configuration.docPath))
 
 foreach (var contact in contactlist)
 {
-    if (contact.Name == answer || contact.PhoneNumber == answer)
+    if (contact.Name.Contains(answer) || contact.PhoneNumber.Contains(answer))
     {
         
         Console.WriteLine
