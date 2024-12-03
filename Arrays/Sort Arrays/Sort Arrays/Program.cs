@@ -16,7 +16,7 @@ foreach (string i in myNumbers)
     Console.WriteLine(i);
 }
 
-Array.Sort(myNumbers);
+
 
 foreach (string i in myNumbers)
 {
