@@ -24,8 +24,7 @@ switch (choice)
 {
     case 1:
             Console.WriteLine("Enter the name of the city you want to check the weather for:");
-            while( Console.ReadLine() == null) {
-            }
+            city = Console.ReadLine();
             GetWeather(city);
         break;
     case 2:
@@ -34,38 +33,22 @@ switch (choice)
             GetForecast(city);
         break;
     case 3:
-       /* exit();*///bool=false;
+            gameon = false;
         break;
 }
-
-/*
-    Ask for Input: 1, 2, 3;
-    Switch;
-    -1 Ask for input, and ask for a method. Getweather(city); Return weather or invalid if not 
-    -2 Ask for input, and ask for a method. Getmultipleweather(city);
-    -3 Exit, change the bool for loop to false. 
-
-
-
-*/
-
-
-
-
-
 
 
 static void GetWeather(string city)
 {
     if (city == "London")
     {
-        Console.WriteLine("Fetching weather data for London...");
-        Console.WriteLine("-----------------------------------");
-        Console.WriteLine(@"- Temperature: 15°C 
+        Console.WriteLine(@"Fetching weather data for London...
+-----------------------------------
+- Temperature: 15°C 
 - Conditions: Partly Cloudy 
 - Humidity: 72% 
-- Wind Speed: 10 km/h");
-        Console.WriteLine("-----------------------------------");
+- Wind Speed: 10 km/h
+-----------------------------------");
         }
 
 
