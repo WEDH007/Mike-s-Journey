@@ -21,7 +21,7 @@ int n = 0;
 int totalvalue;
 int choice = 0;
 bool gameon = true;
-bool itemnotfound = true;
+
 
 
 //int choice = 0;
@@ -53,8 +53,7 @@ switch (choice)
             //Additem(name, quantity, price);
             break;
     case 3:
-            string findname = FindItem();
-            RemoveItem(findname);
+            RemoveItem();
         break;
     case 4:
         UpdateItem();
@@ -66,6 +65,8 @@ switch (choice)
         ViewTotal();
         break;
     case 7:
+            Console.Clear();
+            Console.WriteLine("Goodbye.");
         gameon = false;
         break;
     default:
@@ -101,9 +102,11 @@ void SearchItem()
     Console.WriteLine(@"
     ----------------------------Search Item----------------------------
 Please enter the name of the item you want to search for:
-{item}
-Item found: Apple - Quantity: 50, Price: $0.50, Total Value: $25.00
---------------------------------------------------------------------");
+");
+
+    var foundItem = PrintItem();
+    Console.WriteLine(@"
+    --------------------------------------------------------------------");
     ReturnToMenu();
 
 }
@@ -111,18 +114,47 @@ void UpdateItem()
 {
     Console.WriteLine(@"
     ----------------------------Update Item----------------------------
-Please enter the name of the item you want to update:
-{item}
-Item found: Apple - Quantity: 50, Price: $0.50
+Please enter the name of the item you want to update:");
+    var foundItem = PrintItem();
+
+Console.WriteLine(@"
 
 What would you like to update?
 1. Quantity
 2. Price
-Please select an option (1-2):
-{updatechoice}
-Please enter the new value:
-{updatedvalue}
+Please select an option (1-2):");
+
+
+    int option = 0;
+    while (!int.TryParse(Console.ReadLine(), out option) || option!=1 && option!=2)
+    {
+        Console.WriteLine("Invalid input. Please enter a valid number for quantity:");
+    }
+    
+    Console.WriteLine(@"
+Please enter the new value:");
+
+
+
+
+    int value = 0;
+    while (!int.TryParse(Console.ReadLine(), out value) || value > 100)
+    {
+        Console.WriteLine("Invalid input. Please enter a valid number for quantity:");
+    }
+    Console.WriteLine(@"
 --------------------------------------------------------------------");
+
+    if(option == 1)
+    {
+        foundItem.Quantity = value;
+    }
+    else
+    {
+        foundItem.Price = value;
+    }
+
+
 
     Console.WriteLine($@"Item successfully updated.");
 
@@ -130,20 +162,26 @@ Please enter the new value:
 
     
 }
-void RemoveItem(string findname)
+void RemoveItem()
 {
+    Console.WriteLine(@"
+----------------------------Remove Item----------------------------
+Please enter the name of the item you want to remove:");
+
+    string findname = FindItem();
+
     Console.WriteLine(@$"
 Are you sure you want to remove {findname} from the inventory? (Y / N) :
 
 --------------------------------------------------------------------");
     string confirmation = Console.ReadLine().ToUpper();//needs to be a method
-    while (string.IsNullOrWhiteSpace(confirmation)|| confirmation != "Y" && confirmation!= "N")
+    while (string.IsNullOrWhiteSpace(confirmation) || confirmation != "Y" && confirmation != "N")
     {
         Console.WriteLine("Invalid input. Please enter Y/N.");
         confirmation = Console.ReadLine();
     }
 
-    if( confirmation == "Y")
+    if ( confirmation == "Y")
     {
         items.RemoveAll(i => i.Name == findname);
         Console.WriteLine($@"Item successfully removed.");
@@ -158,13 +196,9 @@ Are you sure you want to remove {findname} from the inventory? (Y / N) :
 string FindItem()
 {
     string findname ="";
+    bool itemnotfound = true;
     while (itemnotfound)
     {
-
-        Console.WriteLine(@"
-----------------------------Remove Item----------------------------
-Please enter the name of the item you want to remove:");
-
 
         findname = Console.ReadLine();
         while (string.IsNullOrWhiteSpace(findname))
@@ -177,12 +211,16 @@ Please enter the name of the item you want to remove:");
             if (i.Name == findname)
             {
                 itemnotfound = false;
+                
             }
 
 
         }
+
+        if (itemnotfound) { 
         Console.Clear();
-        Console.WriteLine("Name not found.");
+        Console.WriteLine("Name not found. Try again.");
+        }
     }
     return findname; ;
 }
@@ -264,4 +302,13 @@ void ReturnToMenu()
 {
     Console.WriteLine($@"Press any key to return to the main menu.");// This needs to be a method. 
     Console.ReadLine();
+}
+Item PrintItem()
+{
+    string findname = FindItem();
+    var foundItem = items.FirstOrDefault(i => i.Name == findname);
+    Console.WriteLine(@$"
+
+Item found: {foundItem.Name} | Quantity: {foundItem.Quantity} | Price: {foundItem.Price}");
+    return foundItem;
 }
