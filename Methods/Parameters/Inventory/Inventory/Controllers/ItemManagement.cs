@@ -246,7 +246,6 @@ Total Inventory Value: ${totalvalue}
 
 
         //Validations
-
         int GetValidatedInput(string prompt, int maxValue)
         {
             Console.WriteLine(prompt);
