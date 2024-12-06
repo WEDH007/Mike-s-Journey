@@ -1,5 +1,7 @@
 ﻿using Inventory;
 using System.Diagnostics;
+using System.Diagnostics.Metrics;
+using System.Numerics;
 using System.Runtime.InteropServices;
 using System.Xml.Linq;
 using System.Xml.Serialization;
@@ -8,38 +10,57 @@ using System.Xml.Serialization;
 
 List<Item> items = new List<Item>
 {
-new Item { Name = "Apple", Quantity = 10, Price = 10 },
-new Item { Name = "Orange", Quantity = 10, Price = 10 },
-new Item { Name = "Lemon", Quantity = 10, Price = 10 },
-new Item { Name = "Pineapple", Quantity = 10, Price = 10 },
-new Item { Name = "Carrot", Quantity = 10, Price = 10 }
+//new Item ("Apple", 10, 10),
+//new Item ( "Orange", 15, 15),
+//new Item ( "Grapes", 20, 20),
+//new Item ( "Pineapple", 30, 30),
+new Item ( "Carrot", 55, 55),
 
 };
-
-
 int n = 0;
 int totalvalue;
 int choice = 0;
 bool gameon = true;
 
 
+const string NewValue = @"
+        Please enter the new value:";
+const string UpdateQP = @"
 
-//int choice = 0;
-//char choice2 = 'x';
-//int updatechoice = 0;
-//int updatedvalue = 0;
-//string item = null;
-//int Quantity = 0;
-//int Price = 0;
+What would you like to update?
+1. Quantity
+2. Price
+Please select an option (1-2):";
+const string MainMenuText = @"
+    ---------------------------- Simple Inventory System ----------------------------
+1. View Inventory
+2. Add Item to Inventory
+3. Remove Item from Inventory
+4. Update Item in Inventory
+5. Search Item by Name
+6. View Total Inventory Value
+7. Exit
+---------------------------------------------------------------------------------
+Please select an option (1-7):";
+const string Division = @"
+    --------------------------------------------------------------------";
+const string RemoveItemTitle = @"
+----------------------------Remove Item----------------------------
+";
+const string ViewItemsTitle = @"
+---------------------------- Total Inventory Value ----------------------------";
+const string SearchItemTitle = @"
+    ----------------------------Search Item----------------------------";
+const string UpdateItemTitle = @"
+    ----------------------------Update Item----------------------------
+";
+
 
 while (gameon) {
 
     Console.Clear();
-    MainMenu();
-    while (!int.TryParse(Console.ReadLine(), out choice))
-    {
-        Console.WriteLine("Invalid input. Please enter a valid number (1-7)");
-    }
+    
+    choice = GetValidatedInput(MainMenuText,7);
     Console.Clear();
 
 switch (choice)
@@ -49,8 +70,6 @@ switch (choice)
         break;
     case 2:
            AddItemDisplay();
-            //var (name, quantity, price) = AddItemDisplay();
-            //Additem(name, quantity, price);
             break;
     case 3:
             RemoveItem();
@@ -73,7 +92,6 @@ switch (choice)
         break;
 }
 }
-
 void CalculateTotal()
 {
     totalvalue = 0;
@@ -90,90 +108,85 @@ void ViewTotal()
 {
 
     CalculateTotal();
-    
-    Console.WriteLine(@$"
----------------------------- Total Inventory Value ----------------------------
+    Console.WriteLine(ViewItemsTitle);
+    Console.WriteLine($@"
 Total Inventory Value: ${totalvalue}
----------------------------------------------------------------------------");
+{Division}");
     ReturnToMenu();
 }
 void SearchItem()
 {
-    Console.WriteLine(@"
-    ----------------------------Search Item----------------------------
-Please enter the name of the item you want to search for:
+
+    Console.WriteLine(SearchItemTitle);
+    if (!items.Any())
+    {
+        Console.WriteLine("    The inventory is empty.");
+    }
+    else
+    {
+        Console.WriteLine(@"
+    Please enter the name of the item you want to search for:
 ");
 
-    var foundItem = PrintItem();
-    Console.WriteLine(@"
-    --------------------------------------------------------------------");
+        var foundItem = PrintItem();
+
+    }
+    Console.WriteLine(Division);
+
     ReturnToMenu();
 
 }
 void UpdateItem()
 {
-    Console.WriteLine(@"
-    ----------------------------Update Item----------------------------
-Please enter the name of the item you want to update:");
-    var foundItem = PrintItem();
-
-Console.WriteLine(@"
-
-What would you like to update?
-1. Quantity
-2. Price
-Please select an option (1-2):");
-
-
-    int option = 0;
-    while (!int.TryParse(Console.ReadLine(), out option) || option!=1 && option!=2)
+    Console.WriteLine(UpdateItemTitle);
+    if (!items.Any())
     {
-        Console.WriteLine("Invalid input. Please enter a valid number for quantity:");
-    }
-    
-    Console.WriteLine(@"
-Please enter the new value:");
-
-
-
-
-    int value = 0;
-    while (!int.TryParse(Console.ReadLine(), out value) || value > 100)
-    {
-        Console.WriteLine("Invalid input. Please enter a valid number for quantity:");
-    }
-    Console.WriteLine(@"
---------------------------------------------------------------------");
-
-    if(option == 1)
-    {
-        foundItem.Quantity = value;
+        Console.WriteLine("    The inventory is empty.");
+        Console.ReadLine();
     }
     else
     {
-        foundItem.Price = value;
+        Console.WriteLine("Please enter the name of the item you want to update:");
+
+        var foundItem = PrintItem();
+
+        int option = GetValidatedInput(UpdateQP, 2);
+
+        int value = GetValidatedInput(NewValue, 100);
+
+        if (option == 1)
+        {
+            foundItem.Quantity = value;
+        }
+        else
+        {
+            foundItem.Price = value;
+        }
+
+        Console.WriteLine($@"Item successfully updated.");
+
+        ReturnToMenu();
     }
-
-
-
-    Console.WriteLine($@"Item successfully updated.");
-
-    ReturnToMenu();
-
     
 }
 void RemoveItem()
 {
-    Console.WriteLine(@"
-----------------------------Remove Item----------------------------
-Please enter the name of the item you want to remove:");
+    Console.WriteLine(RemoveItemTitle);
+    if (!items.Any())
+    {
+        Console.WriteLine("    The inventory is empty.");
+        Console.ReadLine();
+    }
 
-    string findname = FindItem();
+    else
+    {
+        Console.WriteLine("Please enter the name of the item you want to remove:");
+        string findname = FindItem();
 
-    Console.WriteLine(@$"
+        Console.WriteLine(@$"
 Are you sure you want to remove {findname} from the inventory? (Y / N) :
+{Division}");
 
---------------------------------------------------------------------");
     string confirmation = Console.ReadLine().ToUpper();//needs to be a method
     while (string.IsNullOrWhiteSpace(confirmation) || confirmation != "Y" && confirmation != "N")
     {
@@ -192,11 +205,14 @@ Are you sure you want to remove {findname} from the inventory? (Y / N) :
     }
 
     ReturnToMenu();
+    }
 }
 string FindItem()
 {
-    string findname ="";
+    string findname = "";
     bool itemnotfound = true;
+
+
     while (itemnotfound)
     {
 
@@ -204,25 +220,23 @@ string FindItem()
         while (string.IsNullOrWhiteSpace(findname))
         {
             Console.WriteLine("Invalid input. Please enter a valid name.");
-            findname = Console.ReadLine().ToUpper();
+            findname = Console.ReadLine();
         }
+        findname = char.ToUpper(findname[0]) + findname.Substring(1);
         foreach (Item i in items)
         {
             if (i.Name == findname)
             {
                 itemnotfound = false;
-                
             }
-
-
         }
+    }
 
         if (itemnotfound) { 
         Console.Clear();
         Console.WriteLine("Name not found. Try again.");
         }
-    }
-    return findname; ;
+    return findname;
 }
 void AddItemDisplay()
 { //static (name, int, int) AddItemDisplay(){}
@@ -249,13 +263,13 @@ void AddItemDisplay()
     {
         Console.WriteLine("Invalid input. Please enter a valid number for price:");
     }
-    Additem(name, quantity, price);
+    AddItem(name, quantity, price);
 }
-void Additem(string name, int quantity, int price) {
+void AddItem(string name, int quantity, int price) {
     
-    items.Add(new Item { Name = name, Quantity = quantity, Price = price });
-    Console.WriteLine(@"
-    --------------------------------------------------------------------");
+    items.Add(new Item(name, quantity, price));
+    Console.WriteLine(@$"
+    {Division}");
 
     Console.WriteLine($@"Item successfully added to the inventory.");
 
@@ -275,28 +289,20 @@ void ViewInventory()
         Console.WriteLine(@$"    | {i.Name,-15} | {i.Quantity,8} | {i.Price,14} | {i.Quantity * i.Price,11} |");
         
     }
+    if (!items.Any())
+    {
+        Console.WriteLine("    The inventory is empty.");
+    }
+
+
     CalculateTotal();
 
-    Console.WriteLine($@"    ---------------------------------------------------------------
-    Total Inventory Value: {totalvalue};
-    -----------------------------------------------------------------");
+    Console.WriteLine($@"    {Division}
+    Total Inventory Value: {totalvalue}
+    {Division}");
 
     ReturnToMenu();
 
-}
-static void MainMenu()
-{
-    Console.WriteLine(@"
-    ---------------------------- Simple Inventory System ----------------------------
-1. View Inventory
-2. Add Item to Inventory
-3. Remove Item from Inventory
-4. Update Item in Inventory
-5. Search Item by Name
-6. View Total Inventory Value
-7. Exit
----------------------------------------------------------------------------------
-Please select an option (1-7):");
 }
 void ReturnToMenu()
 {
@@ -312,3 +318,14 @@ Item PrintItem()
 Item found: {foundItem.Name} | Quantity: {foundItem.Quantity} | Price: {foundItem.Price}");
     return foundItem;
 }
+int GetValidatedInput(string prompt, int maxValue)
+{ 
+    Console.WriteLine(prompt); 
+    int value;
+    while (!int.TryParse(Console.ReadLine(), out value) || value > maxValue)
+    { 
+        Console.WriteLine($"Invalid input. Please enter a number less than {maxValue}:");
+    } 
+    return value; 
+}
+
