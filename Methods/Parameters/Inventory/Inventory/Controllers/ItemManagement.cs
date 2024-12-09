@@ -21,9 +21,7 @@ namespace Inventory.Controller;
         int choice = 0;
         bool gameon = true;
 
-        const string YesorNo = @"
-Are you sure you want to remove {findname} from the inventory? (Y / N) :
-{Division}";
+        
         const string NewValue = @"
         Please enter the new value:";
         const string UpdateQP = @"
@@ -166,7 +164,7 @@ Please enter the item price per unit:";
                 Console.WriteLine("Please enter the name of the item you want to remove:");
                 string findname = FindItem();
 
-                GetValidatedInput2(YesorNo, findname);
+                GetValidatedInput2(findname);
 
 
                 ReturnToMenu();
@@ -256,9 +254,11 @@ Total Inventory Value: ${totalvalue}
             }
             return value;
         }
-        void GetValidatedInput2(string prompt, string findname)
+        void GetValidatedInput2(string findname)
         {
-            Console.WriteLine(prompt);
+            Console.WriteLine(@$"
+Are you sure you want to remove {findname} from the inventory? (Y / N) :
+{Division}");
             string confirmation = Console.ReadLine().ToUpper();//needs to be a method
             while (string.IsNullOrWhiteSpace(confirmation) || confirmation != "Y" && confirmation != "N")
             {
