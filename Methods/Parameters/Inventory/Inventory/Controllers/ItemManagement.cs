@@ -298,8 +298,6 @@ Are you sure you want to remove {findname} from the inventory? (Y / N) :
             }
             return (itemnotfound, findname);
         }
-
-
         //Operations
         void AddItem(string name, int quantity, int price)
         {
