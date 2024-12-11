@@ -21,14 +21,47 @@ namespace School.Classes
             Student = student;
             GradeNumber = gradenumber;
         }
+       
 
-        public void AssignGrade()
+        public static void AssignGrade(Student student, List<Grade> gradeslist, Teacher teacher)
         {
-
+            Console.WriteLine("Enter the grade");
+            int gradenumber = 0;
+            while(!int.TryParse(Console.ReadLine(), out gradenumber))
+                {
+                Console.WriteLine("Invalide Grade.Please try again.");
+            }
+            
+            gradeslist.Add(new Grade(teacher.SubjectSpecialization, student, gradenumber));
+            Console.WriteLine($"Grade has been assigned.");
         }
 
-        public void DisplayGradeInfo()
+        public static void DisplayGradeInfoStudent(Student studentaccount, List<Grade> gradeslist)
+        
         {
+          if(gradeslist.Count == 0)
+            {
+                Console.WriteLine("No grades in the book.");
+                Console.ReadLine();
+                return;
+            }
+            else { 
+            foreach (Grade grade in gradeslist)
+            {
+
+                if (grade.Student == studentaccount)
+                {
+                    if (grade.GradeNumber == null)
+                    {
+                        Console.WriteLine($"{grade.Subject.SubjectName}: Grade has not been yet assigned.");
+                    }
+                    else { 
+                    Console.WriteLine($"{grade.Subject.SubjectName}: {grade.GradeNumber}");
+                    }
+                }
+            }
+            }
+
 
 
         }

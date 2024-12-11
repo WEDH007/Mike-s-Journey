@@ -15,9 +15,10 @@ namespace School.Classes
         public Subject SubjectSpecialization { get; set; }
         public int YearsofExperience { get; set; }
 
-        public Teacher(string name, int age, string address, string teacherId, int yearsofExperience) : base(name, age, address)
+        public Teacher(string name, int age, string address, string teacherId, Subject subjectSpecialization, int yearsofExperience) : base(name, age, address)
         {
             TeacherID = teacherId;
+            SubjectSpecialization = subjectSpecialization;
             YearsofExperience = yearsofExperience;
 
         }

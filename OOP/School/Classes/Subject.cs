@@ -32,6 +32,10 @@ namespace School.Classes
 
         }
 
+        public void AddStudenttoSubject(Student student)
+        {
+            StudentList.Add(student);
+        }
 
     }
 }
