@@ -82,6 +82,7 @@ List<Grade> gradeslist = new List<Grade>
     new Grade(subjectlist[0], subjectlist[0].StudentList[0], 96)
 };
 
+
 Console.WriteLine("Please enter your school ID");
 string id = Console.ReadLine();
 
