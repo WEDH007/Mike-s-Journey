@@ -21,9 +21,18 @@ namespace School.Classes
         }
         
 
-        public void EnrollinSubject()
+        public void EnrollinSubject(Subject subject, Student studentaccount)
         {
-
+            if (!subjectlist.Contains(subject))
+            {
+                subjectlist.Add(subject);
+                subject.StudentList.Add(studentaccount);
+                Console.WriteLine($"{Name} has been enrolled in {subject.SubjectName}.");
+            }
+            else
+            {
+                Console.WriteLine($"{Name} is already enrolled in {subject.SubjectName}.");
+            }
         }
 
 
@@ -34,7 +43,6 @@ namespace School.Classes
             Console.WriteLine($"Address: {Address}");
             Console.WriteLine($"Student ID: {StudentID}");
             Console.WriteLine($"GradeLeve: {GradeLevel}");
-            Console.WriteLine($"Subjects:");
             Console.WriteLine($"GPA: {GPA}");
 
         }
