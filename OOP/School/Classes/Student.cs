@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -44,7 +45,28 @@ namespace School.Classes
             Console.WriteLine($"Student ID: {StudentID}");
             //Console.WriteLine($"GradeLeve: {GradeLevel}");
             Console.WriteLine($"GPA: {GPA}");
-
+            Console.ReadLine();
         }
+
+
+        public static Student? FindCurrentStudent( string id, List<Student> studentlist)
+        {
+           
+            foreach (Student student in studentlist)
+            {
+                if (id == student.StudentID.ToString() || id == student.Name.ToString())
+                {
+                    Console.Clear();
+                    return student;
+                }
+                
+            }
+
+            Console.WriteLine("Student not found.");
+            Console.ReadLine();
+            
+            return null;
+        }
+           
     }
 }

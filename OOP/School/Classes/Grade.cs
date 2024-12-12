@@ -21,45 +21,44 @@ namespace School.Classes
             Student = student;
             GradeNumber = gradenumber;
         }
-       
+
 
         public static void AssignGrade(Student student, List<Grade> gradeslist, Teacher teacher)
         {
-            Console.WriteLine("Enter the grade");
-            int gradenumber = 0;
-            while(!int.TryParse(Console.ReadLine(), out gradenumber))
-                {
-                Console.WriteLine("Invalide Grade.Please try again.");
-            }
-            
+            string prompt = "Enter the grade";
+            string message = "Grade";
+            int gradenumber = new Validation().Validationint(prompt, message);
+
             gradeslist.Add(new Grade(teacher.SubjectSpecialization, student, gradenumber));
             Console.WriteLine($"Grade has been assigned.");
         }
 
         public static void DisplayGradeInfoStudent(Student studentaccount, List<Grade> gradeslist)
-        
+
         {
-          if(gradeslist.Count == 0)
+            if (gradeslist.Count == 0)
             {
                 Console.WriteLine("No grades in the book.");
                 Console.ReadLine();
                 return;
             }
-            else { 
-            foreach (Grade grade in gradeslist)
+            else
             {
-
-                if (grade.Student == studentaccount)
+                foreach (Grade grade in gradeslist)
                 {
-                    if (grade.GradeNumber == null)
+
+                    if (grade.Student == studentaccount)
                     {
-                        Console.WriteLine($"{grade.Subject.SubjectName}: Grade has not been yet assigned.");
-                    }
-                    else { 
-                    Console.WriteLine($"{grade.Subject.SubjectName}: {grade.GradeNumber}");
+                        if (grade.GradeNumber == null)
+                        {
+                            Console.WriteLine($"{grade.Subject.SubjectName}: Grade has not been yet assigned.");
+                        }
+                        else
+                        {
+                            Console.WriteLine($"{grade.Subject.SubjectName}: {grade.GradeNumber}");
+                        }
                     }
                 }
-            }
             }
 
 
@@ -67,3 +66,5 @@ namespace School.Classes
         }
     }
 }
+
+

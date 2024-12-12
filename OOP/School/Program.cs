@@ -1,12 +1,47 @@
 ﻿using System.Collections.Generic;
+using System.Linq.Expressions;
 using System.Runtime;
 using School.Classes;
 
 
 
+Validation validation = new Validation();
 
 Student studentaccount = null;
 Teacher teacheraccount = null;
+
+const string mainmenu = @"
+---------------------
+Main Menu
+---------------------
+1. View personal info
+2. View Subjects
+3. View Grades
+4. Enroll in Class
+e. Exit
+---------------------";
+const string mainmenu2 = @$"
+---------------------
+Main Menu - 
+---------------------
+1. View personal info
+2. Grade classes
+3. Create Subject
+e. Exit
+---------------------";
+const string subjectchoices = @"
+In what subject would you like to enroll
+1. Math
+2. Science
+3. History
+4. English
+5. Geography
+6. Physics 
+7. Chemistry
+8. Art
+9. Music
+10. Pe
+11. Economics";
 
 List<Student> studentlist = new List<Student>
 {
@@ -85,83 +120,27 @@ new Student("Samuel", 23, "634 Pine Drive", "1071", 3.4)
 
 };
 
-List<Student> mathlist = new List<Student>
-{
-    //studentlist[0],
-    //studentlist[1], studentlist[2], studentlist[3], studentlist[4],
-    //studentlist[5], studentlist[6], studentlist[7], studentlist[8], studentlist[9],
-    //studentlist[10], studentlist[11], studentlist[12], studentlist[13], studentlist[14]
-};
+List<Student> mathlist = new List<Student>{};
 
-List<Student> sciencelist = new List<Student>
-{
-    //studentlist[15], studentlist[16], studentlist[17], studentlist[18], studentlist[19],
-    //studentlist[20], studentlist[21], studentlist[22], studentlist[23], studentlist[24],
-    //studentlist[25], studentlist[26], studentlist[27], studentlist[28], studentlist[29]
-};
+List<Student> sciencelist = new List<Student>{};
 
-List<Student> historylist = new List<Student>
-{
-    //studentlist[30], studentlist[31], studentlist[32], studentlist[33], studentlist[34],
-    //studentlist[35], studentlist[36], studentlist[37], studentlist[38], studentlist[39],
-    //studentlist[40], studentlist[41], studentlist[42], studentlist[43], studentlist[44]
-};
+List<Student> historylist = new List<Student>{};
 
-List<Student> englishlist = new List<Student>
-{
-    //studentlist[45], studentlist[46], studentlist[47], studentlist[48], studentlist[49],
-    //studentlist[0], studentlist[1], studentlist[2], studentlist[3], studentlist[4],
-    //studentlist[5], studentlist[6], studentlist[7], studentlist[8], studentlist[9]
-};
+List<Student> englishlist = new List<Student>{};
 
-List<Student> geographylist = new List<Student>
-{
-    //studentlist[10], studentlist[11], studentlist[12], studentlist[13], studentlist[14],
-    //studentlist[15], studentlist[16], studentlist[17], studentlist[18], studentlist[19],
-    //studentlist[20], studentlist[21], studentlist[22], studentlist[23], studentlist[24]
-};
+List<Student> geographylist = new List<Student>{};
 
-List<Student> physicslist = new List<Student>
-{
-    //studentlist[25], studentlist[26], studentlist[27], studentlist[28], studentlist[29],
-    //studentlist[30], studentlist[31], studentlist[32], studentlist[33], studentlist[34],
-    //studentlist[35], studentlist[36], studentlist[37], studentlist[38], studentlist[39]
-};
+List<Student> physicslist = new List<Student>{};
 
-List<Student> chemistrylist = new List<Student>
-{
-    //studentlist[40], studentlist[41], studentlist[42], studentlist[43], studentlist[44],
-    //studentlist[45], studentlist[46], studentlist[47], studentlist[48], studentlist[49],
-    //studentlist[0], studentlist[1], studentlist[2], studentlist[3], studentlist[4]
-};
+List<Student> chemistrylist = new List<Student>{};
 
-List<Student> artlist = new List<Student>
-{
-    //studentlist[5], studentlist[6], studentlist[7], studentlist[8], studentlist[9],
-    //studentlist[10], studentlist[11], studentlist[12], studentlist[13], studentlist[14],
-    //studentlist[15], studentlist[16], studentlist[17], studentlist[18], studentlist[19]
-};
+List<Student> artlist = new List<Student>{};
 
-List<Student> musiclist = new List<Student>
-{
-    //studentlist[20], studentlist[21], studentlist[22], studentlist[23], studentlist[24],
-    //studentlist[25], studentlist[26], studentlist[27], studentlist[28], studentlist[29],
-    //studentlist[30], studentlist[31], studentlist[32], studentlist[33], studentlist[34]
-};
+List<Student> musiclist = new List<Student>{};
 
-List<Student> peList = new List<Student>
-{
-    //    studentlist[35], studentlist[36], studentlist[37], studentlist[38], studentlist[39],
-    //    studentlist[40], studentlist[41], studentlist[42], studentlist[43], studentlist[44],
-    //    studentlist[45], studentlist[46], studentlist[47], studentlist[48], studentlist[49]
-};
+List<Student> peList = new List<Student>{};
 
-List<Student> economicslist = new List<Student>
-{
-    //studentlist[0], studentlist[1], studentlist[2], studentlist[3], studentlist[4],
-    //studentlist[5], studentlist[6], studentlist[7], studentlist[8], studentlist[9],
-    //studentlist[10], studentlist[11], studentlist[12], studentlist[13], studentlist[14]
-};
+List<Student> economicslist = new List<Student>{};
 
 List<Teacher> teacherlist = new List<Teacher>
 {
@@ -193,157 +172,62 @@ List<Subject> subjectlist = new List<Subject>
     new Subject("Economics", teacherlist[10], economicslist)
 };
 
-List<Grade> gradeslist = new List<Grade>
+List<Grade> gradeslist = new List<Grade>{};
+
+bool professor = false;
+bool accountfound = false;
+string studentorprof = @"
+Welcome to the School Project!
+-------------------------------
+[Student] or [Professor]
+    1             2       
+";
+//string message = "choice";
+
+
+while (!accountfound)
 {
-    //new Grade(subjectlist[0], subjectlist[0].StudentList[0], 96),
-//new Grade(subjectlist[0], subjectlist[0].StudentList[1], 98),
-//new Grade(subjectlist[0], subjectlist[0].StudentList[2], 56),
-//new Grade(subjectlist[0], subjectlist[0].StudentList[3], 87),
-//new Grade(subjectlist[0], subjectlist[0].StudentList[4], 92),
-//new Grade(subjectlist[0], subjectlist[0].StudentList[5], 75),
-//new Grade(subjectlist[0], subjectlist[0].StudentList[6], 88),
-//new Grade(subjectlist[0], subjectlist[0].StudentList[7], 83),
-//new Grade(subjectlist[0], subjectlist[0].StudentList[8], 79),
-//new Grade(subjectlist[0], subjectlist[0].StudentList[9], 85),
-//new Grade(subjectlist[0], subjectlist[0].StudentList[10], 94),
-//new Grade(subjectlist[0], subjectlist[0].StudentList[11], 76),
-//new Grade(subjectlist[0], subjectlist[0].StudentList[12], 91),
-//new Grade(subjectlist[0], subjectlist[0].StudentList[13], 69),
-//new Grade(subjectlist[0], subjectlist[0].StudentList[14], 82),
-//new Grade(subjectlist[1], subjectlist[1].StudentList[0], 96),
-//new Grade(subjectlist[1], subjectlist[1].StudentList[1], 98),
-//new Grade(subjectlist[1], subjectlist[1].StudentList[2], 56),
-//new Grade(subjectlist[1], subjectlist[1].StudentList[3], 87),
-//new Grade(subjectlist[1], subjectlist[1].StudentList[4], 92),
-//new Grade(subjectlist[1], subjectlist[1].StudentList[5], 75),
-//new Grade(subjectlist[1], subjectlist[1].StudentList[6], 88),
-//new Grade(subjectlist[1], subjectlist[1].StudentList[7], 83),
-//new Grade(subjectlist[1], subjectlist[1].StudentList[8], 79),
-//new Grade(subjectlist[1], subjectlist[1].StudentList[9], 85),
-//new Grade(subjectlist[1], subjectlist[1].StudentList[10], 94),
-//new Grade(subjectlist[1], subjectlist[1].StudentList[11], 76),
-//new Grade(subjectlist[1], subjectlist[1].StudentList[12], 91),
-//new Grade(subjectlist[1], subjectlist[1].StudentList[13], 69),
-//new Grade(subjectlist[1], subjectlist[1].StudentList[14], 82),
-//new Grade(subjectlist[2], subjectlist[2].StudentList[0], 96),
-//new Grade(subjectlist[2], subjectlist[2].StudentList[1], 98),
-//new Grade(subjectlist[2], subjectlist[2].StudentList[2], 56),
-//new Grade(subjectlist[2], subjectlist[2].StudentList[3], 87),
-//new Grade(subjectlist[2], subjectlist[2].StudentList[4], 92),
-//new Grade(subjectlist[2], subjectlist[2].StudentList[5], 75),
-//new Grade(subjectlist[2], subjectlist[2].StudentList[6], 88),
-//new Grade(subjectlist[2], subjectlist[2].StudentList[7], 83),
-//new Grade(subjectlist[2], subjectlist[2].StudentList[8], 79),
-//new Grade(subjectlist[2], subjectlist[2].StudentList[9], 85),
-//new Grade(subjectlist[2], subjectlist[2].StudentList[10], 94),
-//new Grade(subjectlist[2], subjectlist[2].StudentList[11], 76),
-//new Grade(subjectlist[2], subjectlist[2].StudentList[12], 91),
-//new Grade(subjectlist[2], subjectlist[2].StudentList[13], 69),
-//new Grade(subjectlist[2], subjectlist[2].StudentList[14], 82),
-//new Grade(subjectlist[3], subjectlist[3].StudentList[0], 96),
-//new Grade(subjectlist[3], subjectlist[3].StudentList[1], 98),
-//new Grade(subjectlist[3], subjectlist[3].StudentList[2], 56),
-//new Grade(subjectlist[3], subjectlist[3].StudentList[3], 87),
-//new Grade(subjectlist[3], subjectlist[3].StudentList[4], 92),
-//new Grade(subjectlist[3], subjectlist[3].StudentList[5], 75),
-//new Grade(subjectlist[3], subjectlist[3].StudentList[6], 88),
-//new Grade(subjectlist[3], subjectlist[3].StudentList[7], 83),
-//new Grade(subjectlist[3], subjectlist[3].StudentList[8], 79),
-//new Grade(subjectlist[3], subjectlist[3].StudentList[9], 85),
-//new Grade(subjectlist[3], subjectlist[3].StudentList[10], 94),
-//new Grade(subjectlist[3], subjectlist[3].StudentList[11], 76),
-//new Grade(subjectlist[3], subjectlist[3].StudentList[12], 91),
-//new Grade(subjectlist[3], subjectlist[3].StudentList[13], 69),
-//new Grade(subjectlist[3], subjectlist[3].StudentList[14], 82),
-//new Grade(subjectlist[4], subjectlist[4].StudentList[0], 96),
-//new Grade(subjectlist[4], subjectlist[4].StudentList[1], 98),
-//new Grade(subjectlist[4], subjectlist[4].StudentList[2], 56),
-//new Grade(subjectlist[4], subjectlist[4].StudentList[3], 87),
-//new Grade(subjectlist[4], subjectlist[4].StudentList[4], 92),
-//new Grade(subjectlist[4], subjectlist[4].StudentList[5], 75),
-//new Grade(subjectlist[4], subjectlist[4].StudentList[6], 88),
-//new Grade(subjectlist[4], subjectlist[4].StudentList[7], 83),
-//new Grade(subjectlist[4], subjectlist[4].StudentList[8], 79),
-//new Grade(subjectlist[4], subjectlist[4].StudentList[10], 94),
-//new Grade(subjectlist[4], subjectlist[4].StudentList[11], 76),
-//new Grade(subjectlist[4], subjectlist[4].StudentList[12], 91),
-//new Grade(subjectlist[4], subjectlist[4].StudentList[13], 69),
-//new Grade(subjectlist[4], subjectlist[4].StudentList[14], 82)
-};
+    int choice = validation.Validationint(studentorprof, "choice");
 
-Console.WriteLine("Welcome to Mikey's School!");
-
-bool found = false;
-
-
-while (!found)
-{
-    bool prof = true;
-    Console.WriteLine("Please enter your school ID");
-    string id = Console.ReadLine();
-
-    foreach (Student student in studentlist)
+    switch (choice)
     {
-        if (id == student.StudentID.ToString())
-        {
-            Console.Clear();
-            Console.WriteLine($"Welcome, {student.Name}!");
-            Console.ReadLine();
-            prof = false;
-            studentaccount = student;
-            found = true;
+        case 1:
+
+            string studentid = new Validation().ValidationId();
+
+            studentaccount = Student.FindCurrentStudent(studentid, studentlist);
+            
+
+
             break;
-        }
+        case 2:
+            string teacherid = new Validation().ValidationId();
+
+            teacheraccount = Teacher.FindCurrentTeacher(teacherid, teacherlist);
+
+
+            break;
     }
 
-    if (prof)
-    {
-        foreach (Teacher teacher in teacherlist)
-        {
-            if (id == teacher.TeacherID.ToString())
-            {
-                Console.Clear();
-                Console.WriteLine($"Welcome, {teacher.Name}!");
-                Console.ReadLine();
-                teacheraccount = teacher;
-                found = true;
-                break;
 
-            }
-        }
 
-    }
-    if (!found)
+    while (studentaccount !=null)
     {
-        Console.WriteLine("Invalid ID. Please try again.");
-        Console.ReadLine();
+        
+       
         Console.Clear();
-    }
+        Console.WriteLine($"{studentaccount.Name}!");
+        Console.Write(mainmenu);
+    
 
-
-    while (studentaccount != null)
-    {
-
-
-        Console.Clear();
-        Console.WriteLine(@"
----------------------
-Main Menu
----------------------
-1. View personal info
-2. View Subjects
-3. View Grades
-4. Enroll in Class
----------------------"
-    );
 
         var answer = Console.ReadLine();
+
         switch (answer)
         {
             case "1":
                 Console.Clear();
                 studentaccount.DisplayInfo();
-                Console.ReadLine();
                 break;
 
             case "2":
@@ -360,35 +244,15 @@ Main Menu
                 }
                 Console.ReadLine();
                 break;
-
             case "3":
                 Console.Clear();
-
                 Grade.DisplayGradeInfoStudent(studentaccount, gradeslist);
-                Console.ReadLine();
                 break;
             case "4":
-                Console.WriteLine(@"In what subject would you like to enroll
-1. Math
-2. Science
-3. History
-4. English
-5. Geography
-6. Physics 
-7. Chemistry
-8. Art
-9. Music
-10. Pe
-11. Economics");
-                int newsubject = 0;
-                while (!int.TryParse(Console.ReadLine(), out newsubject))
-                {
-                    Console.WriteLine("Invalid input. Please try again.");
-                }
+                int newsubject = new Validation().Validationint(subjectchoices, "integer");
                 studentaccount.EnrollinSubject(subjectlist[newsubject - 1], studentaccount);
                 break;
             case "e":
-                found = false;
                 studentaccount = null;
                 break;
             default:
@@ -397,49 +261,30 @@ Main Menu
         }
     }
 
-    while (teacheraccount != null)
+    while (teacheraccount !=null)
     {
-        Console.WriteLine(@$"
----------------------
-Main Menu - 
----------------------
-1. View personal info
-2. Grade
-3. Create Subject
-4. Enroll in Class
----------------------"
-    );
+        
+        Console.Clear();
+        Console.WriteLine($"{teacheraccount.Name}!");
+
+        Console.WriteLine(mainmenu2);
         var answer = Console.ReadLine();
         switch (answer)
         {
             case "1":
                 teacheraccount.DisplayInfo();
-                Console.ReadLine();
                 break;
             case "2":
-
-
-                /*   string studentname, List< Grade > gradeslist, string subjectNam*/
-
                 Console.WriteLine("Enter the name of the student");
-                string answername = Console.ReadLine();
-
-                foreach (Student student in studentlist)
-                {
-                    if (answername == student.Name.ToString())
-                    {
-                        studentaccount = student;
-                        break;
-                    }
-                }
-
+                while (studentaccount == null) {
+                    string answername = Console.ReadLine();
+                    studentaccount = Student.FindCurrentStudent(answername,studentlist);
+                };
+                Teacher.AssingSubject(teacherlist, teacheraccount, subjectlist);
                 Grade.AssignGrade(studentaccount, gradeslist, teacheraccount);
-
-
-
                 break;
             case "e":
-                found = false;
+             
                 teacheraccount = null;
                 break;
             default:
@@ -447,6 +292,7 @@ Main Menu -
                 break;
         }
     }
-
 }
+
+
 
