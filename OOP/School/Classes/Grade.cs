@@ -22,12 +22,11 @@ namespace School.Classes
             GradeNumber = gradenumber;
         }
 
-
         public static void AssignGrade(Student student, List<Grade> gradeslist, Teacher teacher)
         {
             string prompt = "Enter the grade";
             string message = "Grade";
-            int gradenumber = new Validation().Validationint(prompt, message);
+            int gradenumber = Validation.Validationint(prompt, message);
 
             gradeslist.Add(new Grade(teacher.SubjectSpecialization, student, gradenumber));
             Console.WriteLine($"Grade has been assigned.");
@@ -36,9 +35,9 @@ namespace School.Classes
         public static void DisplayGradeInfoStudent(Student studentaccount, List<Grade> gradeslist)
 
         {
-            if (gradeslist.Count == 0)
+            if (studentaccount.subjectlist.Count == 0)
             {
-                Console.WriteLine("No grades in the book.");
+                Console.WriteLine("No classes assigned");
                 Console.ReadLine();
                 return;
             }
@@ -56,6 +55,7 @@ namespace School.Classes
                         else
                         {
                             Console.WriteLine($"{grade.Subject.SubjectName}: {grade.GradeNumber}");
+                            Console.ReadLine();
                         }
                     }
                 }
@@ -68,3 +68,6 @@ namespace School.Classes
 }
 
 
+//Change the code so It creates a grade, when enrolled in a class.
+//Create a method to update the grade from the professor's side.
+//Allow the professor to teach different subjects.

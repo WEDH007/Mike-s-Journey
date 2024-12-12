@@ -68,5 +68,18 @@ namespace School.Classes
 
 
         }
+
+        //public static bool StudentinClassChecker(Student studentaccount, Teacher teacheraccount, List<Grade> gradeslist)
+        //{
+        //    foreach (Subject i in studentaccount.subjectlist)
+        //    {
+        //        if (i == teacheraccount.SubjectSpecialization)
+        //        {
+        //            Grade.AssignGrade(studentaccount, gradeslist, teacheraccount);
+                    
+        //        }
+        //    }
+           
+        //}
     }
 }

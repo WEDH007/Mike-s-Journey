@@ -8,7 +8,7 @@ namespace School.Classes
 {
     public class Validation
     {
-        public int Validationint(string prompt, string variable)
+        public static int Validationint(string prompt, string variable)
         {
             Console.Clear();
             Console.WriteLine(prompt);
@@ -19,8 +19,6 @@ namespace School.Classes
             }
             return gradenumber;
         }
-
-
         public string ValidationId()
         {
             Console.Clear();

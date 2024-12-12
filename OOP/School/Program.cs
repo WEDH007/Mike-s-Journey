@@ -5,7 +5,6 @@ using School.Classes;
 
 
 
-Validation validation = new Validation();
 
 Student studentaccount = null;
 Teacher teacheraccount = null;
@@ -187,7 +186,7 @@ Welcome to the School Project!
 
 while (!accountfound)
 {
-    int choice = validation.Validationint(studentorprof, "choice");
+    int choice = Validation.Validationint(studentorprof, "choice");
 
     switch (choice)
     {
@@ -232,16 +231,7 @@ while (!accountfound)
 
             case "2":
                 Console.Clear();
-                foreach (Subject i in subjectlist)
-                {
-                    foreach (Student m in i.StudentList)
-                    {
-                        if (studentaccount == m)
-                        {
-                            Console.WriteLine(i.SubjectName);
-                        }
-                    }
-                }
+                Student.PrintStudentsSubjects(studentaccount);
                 Console.ReadLine();
                 break;
             case "3":
@@ -249,8 +239,9 @@ while (!accountfound)
                 Grade.DisplayGradeInfoStudent(studentaccount, gradeslist);
                 break;
             case "4":
-                int newsubject = new Validation().Validationint(subjectchoices, "integer");
+                int newsubject = Validation.Validationint(subjectchoices, "integer");
                 studentaccount.EnrollinSubject(subjectlist[newsubject - 1], studentaccount);
+                Grade.AssignGrade(studentaccount, gradeslist, Teacher teacher);
                 break;
             case "e":
                 studentaccount = null;
@@ -261,9 +252,9 @@ while (!accountfound)
         }
     }
 
-    while (teacheraccount !=null)
+    while (teacheraccount != null)
     {
-        
+
         Console.Clear();
         Console.WriteLine($"{teacheraccount.Name}!");
 
@@ -275,14 +266,48 @@ while (!accountfound)
                 teacheraccount.DisplayInfo();
                 break;
             case "2":
-                Console.WriteLine("Enter the name of the student");
-                while (studentaccount == null) {
-                    string answername = Console.ReadLine();
-                    studentaccount = Student.FindCurrentStudent(answername,studentlist);
-                };
                 Teacher.AssingSubject(teacherlist, teacheraccount, subjectlist);
-                Grade.AssignGrade(studentaccount, gradeslist, teacheraccount);
+
+                Console.WriteLine("Enter the name of the student");
+                studentaccount = null;
+                while (studentaccount == null)
+                {
+                    string answername = Console.ReadLine();
+                    studentaccount = Student.FindCurrentStudent(answername, studentlist);
+                };
+
+                if (studentaccount.subjectlist.Count == 0)
+                {
+                    Console.WriteLine("Student is not enrolled in any classes.");
+                    Console.ReadLine();
+                    break;
+                }
+
+                else
+                {
+                    bool studentinclass = true;
+                    if (studentinclass)
+                    {
+                        foreach (Subject i in studentaccount.subjectlist)
+                        {
+                            if (i == teacheraccount.SubjectSpecialization)
+                            {
+                                Grade.AssignGrade(studentaccount, gradeslist, teacheraccount);
+                                studentinclass = false;
+                            }
+                        }
+                    }
+                    else if (!studentinclass)
+                        //bool studentinclass = Teacher.StudentinClassChecker(studentaccount, teacheraccount, gradeslist);
+
+                        Console.WriteLine("Student is not enrolled in this class.");
+                    Console.ReadLine();
+                }
                 break;
+        
+    
+                  
+                
             case "e":
              
                 teacheraccount = null;

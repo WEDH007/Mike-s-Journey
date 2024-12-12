@@ -19,8 +19,14 @@ namespace School.Classes
             StudentID = studentID;
             GPA = gpa;
         }
-        
-
+       
+        public static void PrintStudentsSubjects(Student studentaccount)
+        {
+            foreach (Subject i in studentaccount.subjectlist)
+            {
+                Console.WriteLine(i.SubjectName);
+            }
+        }
         public void EnrollinSubject(Subject subject, Student studentaccount)
         {
             if (!studentaccount.subjectlist.Contains(subject))
@@ -36,7 +42,6 @@ namespace School.Classes
             }
         }
 
-
         public override void DisplayInfo()
         {
             Console.WriteLine($"Name: {Name}");
@@ -47,7 +52,6 @@ namespace School.Classes
             Console.WriteLine($"GPA: {GPA}");
             Console.ReadLine();
         }
-
 
         public static Student? FindCurrentStudent( string id, List<Student> studentlist)
         {
@@ -67,6 +71,7 @@ namespace School.Classes
             
             return null;
         }
+        
            
     }
 }
