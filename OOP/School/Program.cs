@@ -1,10 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Runtime;
+using System.Xml.Linq;
 using School.Classes;
-
-
-
 
 Student studentaccount = null;
 Teacher teacheraccount = null;
@@ -18,7 +16,8 @@ Main Menu
 3. View Grades
 4. Enroll in Class
 e. Exit
----------------------";
+---------------------
+";
 const string mainmenu2 = @$"
 ---------------------
 Main Menu - 
@@ -27,20 +26,8 @@ Main Menu -
 2. Grade classes
 3. Create Subject
 e. Exit
----------------------";
-const string subjectchoices = @"
-In what subject would you like to enroll
-1. Math
-2. Science
-3. History
-4. English
-5. Geography
-6. Physics 
-7. Chemistry
-8. Art
-9. Music
-10. Pe
-11. Economics";
+---------------------
+";
 
 List<Student> studentlist = new List<Student>
 {
@@ -119,27 +106,32 @@ new Student("Samuel", 23, "634 Pine Drive", "1071", 3.4)
 
 };
 
-List<Student> mathlist = new List<Student>{};
+List<Student> mathlist = new List<Student>();
+List<Student> sciencelist = new List<Student>();
+List<Student> historylist = new List<Student>();
+List<Student> englishlist = new List<Student>();
+List<Student> geographylist = new List<Student>();
+List<Student> physicslist = new List<Student>();
+List<Student> chemistrylist = new List<Student>();
+List<Student> artlist = new List<Student>();
+List<Student> musiclist = new List<Student>();
+List<Student> peList = new List<Student>();
+List<Student> economicslist = new List<Student>();
 
-List<Student> sciencelist = new List<Student>{};
-
-List<Student> historylist = new List<Student>{};
-
-List<Student> englishlist = new List<Student>{};
-
-List<Student> geographylist = new List<Student>{};
-
-List<Student> physicslist = new List<Student>{};
-
-List<Student> chemistrylist = new List<Student>{};
-
-List<Student> artlist = new List<Student>{};
-
-List<Student> musiclist = new List<Student>{};
-
-List<Student> peList = new List<Student>{};
-
-List<Student> economicslist = new List<Student>{};
+List<List<Student>> studentsubjectlist = new List<List<Student>>
+{
+    mathlist,
+    sciencelist,
+    historylist,
+    englishlist,
+    geographylist,
+    physicslist,
+    chemistrylist,
+    artlist,
+    musiclist,
+    peList,
+    economicslist
+};
 
 List<Teacher> teacherlist = new List<Teacher>
 {
@@ -158,17 +150,17 @@ List<Teacher> teacherlist = new List<Teacher>
 
 List<Subject> subjectlist = new List<Subject>
 {
-    new Subject("Math", teacherlist[0], mathlist),
-    new Subject("Science", teacherlist[1], sciencelist),
-    new Subject("History", teacherlist[2], historylist),
-    new Subject("English", teacherlist[3], englishlist),
-    new Subject("Geography", teacherlist[4], geographylist),
-    new Subject("Physics", teacherlist[5], physicslist),
-    new Subject("Chemistry", teacherlist[6], chemistrylist),
-    new Subject("Art", teacherlist[7], artlist),
-    new Subject("Music", teacherlist[8], musiclist),
-    new Subject("PE", teacherlist[9], peList),
-    new Subject("Economics", teacherlist[10], economicslist)
+    new Subject("Math", teacherlist[0], studentsubjectlist[0]),
+    new Subject("Science", teacherlist[1], studentsubjectlist[1]),
+    new Subject("History", teacherlist[2], studentsubjectlist[2]),
+    new Subject("English", teacherlist[3], studentsubjectlist[3]),
+    new Subject("Geography", teacherlist[4],studentsubjectlist[4]),
+    new Subject("Physics", teacherlist[5], studentsubjectlist[5]),
+    new Subject("Chemistry", teacherlist[6], studentsubjectlist[6]),
+    new Subject("Art", teacherlist[7],studentsubjectlist[7]),
+    new Subject("Music", teacherlist[8], studentsubjectlist[8]),
+    new Subject("PE", teacherlist[9], studentsubjectlist[9]),
+    new Subject("Economics", teacherlist[10], studentsubjectlist[10])
 };
 
 List<Grade> gradeslist = new List<Grade>{};
@@ -183,7 +175,6 @@ Welcome to the School Project!
 ";
 //string message = "choice";
 
-
 while (!accountfound)
 {
     int choice = Validation.Validationint(studentorprof, "choice");
@@ -195,8 +186,6 @@ while (!accountfound)
             string studentid = new Validation().ValidationId();
 
             studentaccount = Student.FindCurrentStudent(studentid, studentlist);
-            
-
 
             break;
         case 2:
@@ -204,22 +193,15 @@ while (!accountfound)
 
             teacheraccount = Teacher.FindCurrentTeacher(teacherid, teacherlist);
 
-
             break;
     }
 
-
-
     while (studentaccount !=null)
     {
-        
-       
         Console.Clear();
         Console.WriteLine($"{studentaccount.Name}!");
         Console.Write(mainmenu);
     
-
-
         var answer = Console.ReadLine();
 
         switch (answer)
@@ -239,9 +221,9 @@ while (!accountfound)
                 Grade.DisplayGradeInfoStudent(studentaccount, gradeslist);
                 break;
             case "4":
+                string subjectchoices = Subject.GetSubjectChoices(subjectlist);
                 int newsubject = Validation.Validationint(subjectchoices, "integer");
-                studentaccount.EnrollinSubject(subjectlist[newsubject - 1], studentaccount);
-                Grade.AssignGrade(studentaccount, gradeslist, Teacher teacher);
+                studentaccount.EnrollinSubject(subjectlist[newsubject], studentaccount, gradeslist);
                 break;
             case "e":
                 studentaccount = null;
@@ -257,7 +239,7 @@ while (!accountfound)
 
         Console.Clear();
         Console.WriteLine($"{teacheraccount.Name}!");
-
+        Teacher.AssignSubject(teacherlist, teacheraccount, subjectlist);
         Console.WriteLine(mainmenu2);
         var answer = Console.ReadLine();
         switch (answer)
@@ -266,7 +248,34 @@ while (!accountfound)
                 teacheraccount.DisplayInfo();
                 break;
             case "2":
-                Teacher.AssingSubject(teacherlist, teacheraccount, subjectlist);
+
+                School.GenerateReport(Subject.GetSubjectChoices);
+
+                string subjectchoices = null;
+                for (int index = 0; index < teacheraccount.SubjectSpecialization.Count; index++)
+                {
+                    string add = ($"{index}: {teacheraccount.SubjectSpecialization[index].SubjectName}\n");
+                    subjectchoices = subjectchoices + add;
+                }
+                Console.WriteLine(subjectchoices);
+                Console.ReadLine();
+               
+
+
+                bool studentinclass = true;
+                string prompt1 = "Choose which class";
+                string message1 = "class";
+                int chosensubject = Validation.Validationint(prompt1, message1);
+                Subject subjectchosen = teacheraccount.SubjectSpecialization[chosensubject];
+
+                string students = null;
+                for (int index = 0; index < subjectchosen.StudentList.Count; index++)
+                {
+                    string add = ($"{index}: {subjectchosen.StudentList[index].Name}\n");
+                    students = students + add;
+                }
+                Console.WriteLine(students);
+
 
                 Console.WriteLine("Enter the name of the student");
                 studentaccount = null;
@@ -285,31 +294,26 @@ while (!accountfound)
 
                 else
                 {
-                    bool studentinclass = true;
-                    if (studentinclass)
+                    foreach (Subject subject in studentaccount.subjectlist)
                     {
-                        foreach (Subject i in studentaccount.subjectlist)
+                        if (subject == subjectchosen)
                         {
-                            if (i == teacheraccount.SubjectSpecialization)
-                            {
-                                Grade.AssignGrade(studentaccount, gradeslist, teacheraccount);
-                                studentinclass = false;
-                            }
+                            Grade.AssignGrade(studentaccount, gradeslist, teacheraccount, subject);
+                            studentinclass = false;
                         }
                     }
-                    else if (!studentinclass)
-                        //bool studentinclass = Teacher.StudentinClassChecker(studentaccount, teacheraccount, gradeslist);
-
-                        Console.WriteLine("Student is not enrolled in this class.");
-                    Console.ReadLine();
                 }
-                break;
+
+                if (studentinclass)
+                    Console.WriteLine("Student is not enrolled in this class.");
+                Console.ReadLine();
         
-    
-                  
-                
+            break;
+  
+            case "3":
+                Teacher.CreateSubject(subjectlist, teacheraccount, studentsubjectlist);
+                break;
             case "e":
-             
                 teacheraccount = null;
                 break;
             default:

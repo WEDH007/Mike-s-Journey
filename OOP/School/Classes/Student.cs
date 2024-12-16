@@ -27,12 +27,20 @@ namespace School.Classes
                 Console.WriteLine(i.SubjectName);
             }
         }
-        public void EnrollinSubject(Subject subject, Student studentaccount)
+        public void EnrollinSubject(Subject subject, Student studentaccount, List<Grade> gradeslist)
         {
             if (!studentaccount.subjectlist.Contains(subject))
             {
                 subjectlist.Add(subject);
                 subject.StudentList.Add(studentaccount);
+
+
+
+                gradeslist.Add(new Grade(subject, studentaccount));
+
+
+
+
                 Console.WriteLine($"{Name} has been enrolled in {subject.SubjectName}.");
             }
             else

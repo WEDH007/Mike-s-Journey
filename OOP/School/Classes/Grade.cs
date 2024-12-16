@@ -12,28 +12,33 @@ namespace School.Classes
     {
         public Subject Subject { get; set; }
         public Student Student { get; set; }
-        public int GradeNumber { get; set; }
+        public int? GradeNumber { get; set; }
 
-
-        public Grade(Subject subject, Student student, int gradenumber)
+        public Grade(Subject subject, Student student)
         {
             Subject = subject;
             Student = student;
-            GradeNumber = gradenumber;
         }
 
-        public static void AssignGrade(Student student, List<Grade> gradeslist, Teacher teacher)
+        public static void AssignGrade(Student student, List<Grade> gradeslist, Teacher teacher, Subject subject)
         {
             string prompt = "Enter the grade";
             string message = "Grade";
             int gradenumber = Validation.Validationint(prompt, message);
 
-            gradeslist.Add(new Grade(teacher.SubjectSpecialization, student, gradenumber));
-            Console.WriteLine($"Grade has been assigned.");
+            Grade existingGrade = gradeslist.FirstOrDefault(g => g.Student == student && g.Subject == subject);
+            if (existingGrade != null)
+            {
+                existingGrade.GradeNumber = gradenumber;
+                Console.WriteLine($"Grade has been updated.");
+            }
+            else
+            {
+                Console.WriteLine("No matching grade found.");
+            }
         }
 
         public static void DisplayGradeInfoStudent(Student studentaccount, List<Grade> gradeslist)
-
         {
             if (studentaccount.subjectlist.Count == 0)
             {
@@ -45,29 +50,25 @@ namespace School.Classes
             {
                 foreach (Grade grade in gradeslist)
                 {
-
                     if (grade.Student == studentaccount)
                     {
                         if (grade.GradeNumber == null)
                         {
-                            Console.WriteLine($"{grade.Subject.SubjectName}: Grade has not been yet assigned.");
+                            Console.WriteLine($"{grade.Subject.SubjectName}: X");
+                           
                         }
                         else
                         {
                             Console.WriteLine($"{grade.Subject.SubjectName}: {grade.GradeNumber}");
-                            Console.ReadLine();
+                           
                         }
                     }
                 }
+                Console.ReadLine();
             }
-
-
-
         }
     }
 }
 
-
-//Change the code so It creates a grade, when enrolled in a class.
-//Create a method to update the grade from the professor's side.
-//Allow the professor to teach different subjects.
+//Need to clean Up
+//Need to implement Exceptions. 

@@ -19,6 +19,7 @@ namespace School.Classes
             }
             return gradenumber;
         }
+
         public string ValidationId()
         {
             Console.Clear();
@@ -30,10 +31,7 @@ namespace School.Classes
                 Console.WriteLine("Invalid ID entered.");
                 return null;
             }
-
-            return id;
-
-            
+            return id; 
         }
     }
 }

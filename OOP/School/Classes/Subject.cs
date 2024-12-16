@@ -13,7 +13,7 @@ namespace School.Classes
         public string SubjectName { get; set; }
         public Teacher Teacher{ get; set; }
 
-        public List<Student> StudentList = new List<Student>();
+        public List<Student>? StudentList = new List<Student>();
 
         public Subject(string subjectname, Teacher teacher, List<Student> studentlist)
         {
@@ -22,9 +22,16 @@ namespace School.Classes
             StudentList = studentlist;
         }
 
-        public void EnrollStudent()
+        public static string GetSubjectChoices(List<Subject> subjectlist)
         {
 
+            string subjectchoices = null;
+            for (int index = 0; index < subjectlist.Count; index++)
+            {
+                string choice = ($"{index}: {subjectlist[index].SubjectName}\n");
+                subjectchoices = subjectchoices + choice;
+            }
+            return subjectchoices;
         }
 
         public void AssignTeacher()
@@ -36,6 +43,7 @@ namespace School.Classes
         {
             StudentList.Add(student);
         }
+
 
     }
 }

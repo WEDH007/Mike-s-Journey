@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -31,9 +32,40 @@ namespace School.Classes
 
         }
 
-        public void GenerateReport()
+        public static void GenerateReport<T>(List<T> list)
         {
+            string x = null;
+            for (int index = 0; index < list.Count; index++)
+            {
+                string add = ($"{index}: {list[index].Name}\n");
+                x = x + add;
+            }
+            Console.WriteLine(x);
 
         }
+
+
+        
+
+
+        
+
+
+
+        string subjectchoices = null;
+                for (int index = 0; index<teacheraccount.SubjectSpecialization.Count; index++)
+                {
+                    string add = ($"{index}: {teacheraccount.SubjectSpecialization[index].SubjectName}\n");
+    subjectchoices = subjectchoices + add;
+                }
+Console.WriteLine(subjectchoices);
+
+
+
+
+
+
+
+
     }
 }
