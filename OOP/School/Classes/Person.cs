@@ -19,8 +19,6 @@ namespace School.Classes
             Age = age;
             Address = address;
         }
-
-        
         public virtual void DisplayInfo()
         {
             Console.WriteLine($"Name: {Name}");

@@ -71,7 +71,6 @@ namespace School.Classes
             {
                 Console.WriteLine(i.SubjectName);
             }
-
             Console.WriteLine($"Years of Experience: {YearsofExperience}");
             Console.ReadLine();
 
@@ -96,7 +95,16 @@ namespace School.Classes
 
         }
 
-      
+        public static string GetSubjectChoices(Teacher teacheraccount)
+        {
+            string subjectchoices = null;
+            for (int index = 0; index < teacheraccount.SubjectSpecialization.Count; index++)
+            {
+                string add = ($"{index}: {teacheraccount.SubjectSpecialization[index].SubjectName}\n");
+                subjectchoices = subjectchoices + add;
+            }
+            return subjectchoices;
+        }
 
 
     }

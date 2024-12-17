@@ -34,9 +34,22 @@ namespace School.Classes
             return subjectchoices;
         }
 
-        public void AssignTeacher()
+        public static string GetStudentsInSubject(Subject subjectchosen)
         {
-
+            string students = null;
+            try { 
+            for (int index = 0; index < subjectchosen.StudentList.Count; index++)
+            {
+                string add = ($"{index}: {subjectchosen.StudentList[index].Name}\n");
+                students = students + add;
+            }
+            } 
+            catch(Exception e)
+            {
+                Console.WriteLine(e);
+                Console.ReadLine();
+            }
+            return students;
         }
 
         public void AddStudenttoSubject(Student student)

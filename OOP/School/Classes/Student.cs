@@ -29,6 +29,7 @@ namespace School.Classes
         }
         public void EnrollinSubject(Subject subject, Student studentaccount, List<Grade> gradeslist)
         {
+            
             if (!studentaccount.subjectlist.Contains(subject))
             {
                 subjectlist.Add(subject);
@@ -48,6 +49,8 @@ namespace School.Classes
                 Console.WriteLine($"{Name} is already enrolled in {subject.SubjectName}.");
                 Console.ReadLine();
             }
+            
+            
         }
 
         public override void DisplayInfo()
